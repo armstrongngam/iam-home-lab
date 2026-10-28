@@ -1,0 +1,51 @@
+EmployeeId,FirstName,LastName,Department,Title,ManagerId,CostCenter,Office,StartDate,EndDate,Status
+E1001,Elena,Marsh,Executive,Chief Executive Officer,,CC-100,Kansas City,2024-01-01,,Active
+E1002,Daniel,Okafor,Executive,Chief Operating Officer,E1001,CC-100,Kansas City,2024-02-02,,Active
+E1003,Priya,Raman,IT,IT Director,E1001,CC-200,Kansas City,2024-03-03,,Active
+E1004,Marcus,Bell,IT,Systems Administrator,E1003,CC-200,Kansas City,2024-04-04,,Active
+E1005,Sofia,Alvarez,IT,Identity Engineer,E1003,CC-200,Kansas City,2024-05-05,,Active
+E1006,Kwame,Mensah,IT,Network Engineer,E1003,CC-200,Kansas City,2024-06-06,,Active
+E1007,Hannah,Lee,IT,Security Analyst,E1003,CC-200,Kansas City,2024-07-07,,Active
+E1008,Tomas,Novak,IT,Help Desk Technician,E1004,CC-200,Kansas City,2024-08-08,,Active
+E1009,Aisha,Bello,IT,Help Desk Technician,E1004,CC-200,Kansas City,2024-09-09,,Active
+E1010,Ryan,Kowalski,IT,Cloud Engineer,E1003,CC-200,Kansas City,2024-10-10,,Active
+E1011,Mei,Chen,IT,Endpoint Engineer,E1004,CC-200,Kansas City,2024-11-11,,Active
+E1012,Luis,Ortega,IT,Database Administrator,E1003,CC-200,Kansas City,2024-12-12,,Active
+E1013,Grace,Nyambura,IT,IT Project Manager,E1003,CC-200,Kansas City,2024-01-13,,Active
+E1014,Owen,Fischer,IT,Help Desk Technician,E1004,CC-200,Kansas City,2024-02-14,,Active
+E1015,Rebecca,Stone,HR,HR Director,E1002,CC-300,Kansas City,2024-03-15,,Active
+E1016,Jamal,Carter,HR,HR Business Partner,E1015,CC-300,Kansas City,2024-04-16,,Active
+E1017,Ingrid,Larsen,HR,Recruiter,E1015,CC-300,Kansas City,2024-05-17,,Active
+E1018,Fatima,Haddad,HR,Recruiter,E1015,CC-300,Kansas City,2024-06-18,,Active
+E1019,Peter,Walsh,HR,Payroll Specialist,E1015,CC-300,Kansas City,2024-07-19,,Active
+E1020,Yuki,Tanaka,HR,Benefits Coordinator,E1015,CC-300,Kansas City,2024-08-20,,Active
+E1021,Carlos,Mendes,HR,HR Generalist,E1016,CC-300,Kansas City,2024-09-21,,Active
+E1022,Nadia,Petrova,HR,HR Coordinator,E1016,CC-300,Kansas City,2024-10-22,,Active
+E1023,Victor,Hughes,Finance,Chief Financial Officer,E1001,CC-400,Kansas City,2024-11-23,,Active
+E1024,Laura,Brennan,Finance,Controller,E1023,CC-400,Kansas City,2024-12-24,,Active
+E1025,Samuel,Adeyemi,Finance,Senior Accountant,E1024,CC-400,Kansas City,2024-01-25,,Active
+E1026,Chloe,Dubois,Finance,Accountant,E1024,CC-400,Kansas City,2024-02-26,,Active
+E1027,Arjun,Mehta,Finance,Financial Analyst,E1023,CC-400,Kansas City,2024-03-27,,Active
+E1028,Zoe,Hart,Finance,Financial Analyst,E1023,CC-400,Kansas City,2024-04-01,,Active
+E1029,Benjamin,Cole,Finance,Accounts Payable Specialist,E1024,CC-400,Kansas City,2024-05-02,,Active
+E1030,Amara,Eze,Finance,Accounts Payable Specialist,E1024,CC-400,Kansas City,2024-06-03,,Active
+E1031,Lucas,Moreau,Finance,Accounts Receivable Specialist,E1024,CC-400,Kansas City,2024-07-04,,Active
+E1032,Hiroshi,Sato,Finance,Treasury Analyst,E1023,CC-400,Kansas City,2024-08-05,,Active
+E1033,Emily,Grant,Finance,Payroll Accountant,E1024,CC-400,Kansas City,2024-09-06,,Active
+E1034,Diego,Ramos,Finance,Procurement Specialist,E1023,CC-400,Kansas City,2024-10-07,,Active
+E1035,Michael,Turner,Sales,VP of Sales,E1002,CC-500,Kansas City,2024-11-08,,Active
+E1036,Olivia,Park,Sales,Sales Manager,E1035,CC-500,Kansas City,2024-12-09,,Active
+E1037,Ethan,Brooks,Sales,Sales Manager,E1035,CC-500,Kansas City,2024-01-10,,Active
+E1038,Leila,Karimi,Sales,Account Executive,E1036,CC-500,Kansas City,2024-02-11,,Active
+E1039,Noah,Bennett,Sales,Account Executive,E1036,CC-500,Kansas City,2024-03-12,,Active
+E1040,Isabella,Rossi,Sales,Account Executive,E1036,CC-500,Kansas City,2024-04-13,,Active
+E1041,Kofi,Asante,Sales,Account Executive,E1037,CC-500,Kansas City,2024-05-14,,Active
+E1042,Sarah,Lindqvist,Sales,Account Executive,E1037,CC-500,Kansas City,2024-06-15,,Active
+E1043,Jacob,Ward,Sales,Sales Development Rep,E1036,CC-500,Kansas City,2024-07-16,,Active
+E1044,Anya,Volkova,Sales,Sales Development Rep,E1036,CC-500,Kansas City,2024-08-17,,Active
+E1045,Mateo,Silva,Sales,Sales Development Rep,E1037,CC-500,Kansas City,2024-09-18,,Active
+E1046,Ruth,Abebe,Sales,Sales Development Rep,E1037,CC-500,Kansas City,2024-10-19,,Active
+E1047,Liam,Murphy,Sales,Sales Operations Analyst,E1035,CC-500,Kansas City,2024-11-20,,Active
+E1048,Divya,Nair,Sales,Customer Success Manager,E1035,CC-500,Kansas City,2024-12-21,,Active
+E1049,Henry,Clarke,Sales,Customer Success Manager,E1035,CC-500,Kansas City,2024-01-22,,Active
+E1050,Julia,Novak,Sales,Sales Engineer,E1035,CC-500,Kansas City,2024-02-23,,Active

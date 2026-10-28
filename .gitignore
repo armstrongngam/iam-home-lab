@@ -1,0 +1,38 @@
+# --- Secrets: never commit ---
+LabSecrets/
+*initial-passwords*.csv
+*.secret
+*.key
+*.pfx
+*.pem
+*.p12
+.env
+secrets.*
+config.local.*
+
+# --- Logs and audit trails (contain usernames and hostnames) ---
+*.log
+LabLogs/
+*audit*.csv
+
+# --- Exports that may contain real tenant data ---
+*export*.csv
+
+# --- Terraform (state can hold secrets in plain text) ---
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+crash.log
+# (commit .terraform.lock.hcl - it pins provider versions)
+
+# --- VM files ---
+*.vhd
+*.vhdx
+*.avhdx
+*.iso
+
+# --- OS noise ---
+Thumbs.db
+.DS_Store
