@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Armstrong IAM lab - creates the lab network and any lab VM on the Hyper-V HOST.
 
@@ -74,7 +74,7 @@ if ($PSCmdlet.ShouldProcess($VmName, 'Create VM')) {
            -NewVHDPath $vhd -NewVHDSizeBytes $DiskSize `
            -MemoryStartupBytes $MemStartup -SwitchName $SwitchName | Out-Null
 
-    $memMin = [math]::Min(1GB, $MemStartup)
+    $memMin = [math]::Min([int64]1GB, $MemStartup)
     Set-VM -Name $VmName -ProcessorCount $Cpu -DynamicMemory `
            -MemoryMinimumBytes $memMin -MemoryMaximumBytes ([math]::Max($MemMax, $MemStartup)) `
            -AutomaticCheckpointsEnabled $false
@@ -98,3 +98,4 @@ Write-Host "`n$VmName created. Next:" -ForegroundColor Green
 Write-Host "  Start-VM $VmName; vmconnect localhost $VmName"
 Write-Host "  Press a key at 'Press any key to boot from CD or DVD'"
 Write-Host "  After install and first sign-in: Checkpoint-VM -Name $VmName -SnapshotName 'Clean OS'"
+
