@@ -1,6 +1,6 @@
 # Phase 1: On-prem Active Directory
 
-> Status: Not started
+> Status: In progress — forest created and verified
 
 ## Problem
 Armstrong IAM needs a directory that every later phase syncs from: Entra ID, Okta, Linux,
