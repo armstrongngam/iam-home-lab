@@ -135,4 +135,4 @@ if ($PSCmdlet.ShouldProcess($wksOU, 'Redirect default computer container')) {
     Write-Log "Default computer container redirected to $wksOU"
 }
 
-Write-Log 'Structure complete. Next: 03-Set-PasswordPolicies.ps1'
+   if (-not $WhatIfPreference) { Write-Log 'Structure complete. Next: 03-Set-PasswordPolicies.ps1' }

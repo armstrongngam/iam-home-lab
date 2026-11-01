@@ -1,6 +1,6 @@
 # Phase 1: On-prem Active Directory
 
-> Status: In progress — forest created and verified
+> Status: In progress — forest, OUs, AGDLP groups, password policies, 50 HR-driven users done. Next: admin tiering, CLIENT01.
 
 ## Problem
 Armstrong IAM needs a directory that every later phase syncs from: Entra ID, Okta, Linux,
@@ -18,6 +18,13 @@ privileged work has to be separated from daily accounts.
 - **Passwords:** 14-character minimum, lockout at 10 (NIST SP 800-63B: length over rotation);
   admins get a fine-grained policy: 20 characters, lockout at 5.
 - **Source of truth:** HR (`../data/hr.csv`). Users are created by the lifecycle script, matched on employeeID.
+
+## What broke and how I fixed it
+- **Symptom:** DC01 could not ping its default gateway (10.10.10.1).
+- **Root cause:** Nothing was broken. 10.10.10.1 is the Hyper-V host's virtual adapter, and Windows Firewall on the host drops inbound ICMP.
+- **Proof:** `arp -a` resolved the gateway's MAC (00-15-5D = Hyper-V), and `ping 1.1.1.1` through the NAT succeeded.
+- **Lesson:** Troubleshoot layer by layer. A blocked ping does not mean a down link.
+- **Code review:** `02-New-LabStructure.ps1` logged "Structure complete" during `-WhatIf`, so the log looked like a real run. Fixed: log only when not `-WhatIf`.
 
 ## Build (run order)
 
@@ -38,10 +45,6 @@ privileged work has to be separated from daily accounts.
 Copy the whole repo into the VM (for example `C:\Labs\iam-home-lab`) so the relative paths work.
 Initial passwords go to `C:\LabSecrets\` (Administrators only). Never commit that folder.
 
-## What broke and how I fixed it
-- Symptom:
-- Root cause:
-- Fix:
 
 ## Verification
 - `Get-ADOrganizationalUnit -Filter * | Select Name, DistinguishedName`
