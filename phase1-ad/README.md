@@ -25,6 +25,10 @@ privileged work has to be separated from daily accounts.
 - **Proof:** `arp -a` resolved the gateway's MAC (00-15-5D = Hyper-V), and `ping 1.1.1.1` through the NAT succeeded.
 - **Lesson:** Troubleshoot layer by layer. A blocked ping does not mean a down link.
 - **Code review:** `02-New-LabStructure.ps1` logged "Structure complete" during `-WhatIf`, so the log looked like a real run. Fixed: log only when not `-WhatIf`.
+- **Clock drift:** DC01's clock was ~22 hours behind after the VM was resumed (Hyper-V time sync is off for DCs), so new objects were stamped with the wrong date. Fixed with `w32tm /resync /force`. Lesson: Kerberos allows only 5 minutes of skew, and audit logs need correct time.
+- **Help desk test showed "server rejected the client credentials":** that is an authentication failure (wrong password typed, badPwdCount 4), not a permissions result. Fixed the credential and retested. Lesson: AuthN ≠ AuthZ, and always include a test that should pass.
+- **Least-privilege test (as help desk user):** reset a Sales user = allowed; reset a Tier 1 admin, join Domain Admins, change a title = denied.
+- **Backlog:** log timestamps use `{0:u}`, which labels local time as UTC (Z). Fix in all scripts.
 
 ## Build (run order)
 
