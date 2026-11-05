@@ -29,6 +29,9 @@ privileged work has to be separated from daily accounts.
 - **Help desk test showed "server rejected the client credentials":** that is an authentication failure (wrong password typed, badPwdCount 4), not a permissions result. Fixed the credential and retested. Lesson: AuthN ≠ AuthZ, and always include a test that should pass.
 - **Least-privilege test (as help desk user):** reset a Sales user = allowed; reset a Tier 1 admin, join Domain Admins, change a title = denied.
 - **Backlog:** log timestamps use `{0:u}`, which labels local time as UTC (Z). Fix in all scripts.
+- **Out of memory starting CLIENT01:** Windows 11 needs 4 GB only for setup. Right-sized to 2 GB startup with dynamic memory (max 4 GB) so DC01 + CLIENT01 fit on 16 GB.
+- **Domain user couldn't sign in through Enhanced Session:** Enhanced Session is RDP, and standard users lack "Allow log on through Remote Desktop Services." Signed in through the basic console instead. Lesson: authentication succeeded; the logon right (authorization) was missing.
+- **Evaluation showed "expired":** it needed internet to activate. Fixed with a static IP + `slmgr /ato` (valid until Feb 2027).
 
 ## Build (run order)
 
