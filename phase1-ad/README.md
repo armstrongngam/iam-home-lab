@@ -1,6 +1,6 @@
 # Phase 1: On-prem Active Directory
 
-> Status: In progress — forest, OUs, AGDLP groups, password policies, 50 HR-driven users done. Next: admin tiering, CLIENT01.
+> Status: ✅ Complete — forest, OU/AGDLP design, password policies + FGPP, 50 HR-driven users, admin tiering, help desk delegation, service accounts/gMSA, CLIENT01 domain-joined, local-admin GPO verified
 
 ## Problem
 Armstrong IAM needs a directory that every later phase syncs from: Entra ID, Okta, Linux,
@@ -32,6 +32,8 @@ privileged work has to be separated from daily accounts.
 - **Out of memory starting CLIENT01:** Windows 11 needs 4 GB only for setup. Right-sized to 2 GB startup with dynamic memory (max 4 GB) so DC01 + CLIENT01 fit on 16 GB.
 - **Domain user couldn't sign in through Enhanced Session:** Enhanced Session is RDP, and standard users lack "Allow log on through Remote Desktop Services." Signed in through the basic console instead. Lesson: authentication succeeded; the logon right (authorization) was missing.
 - **Evaluation showed "expired":** it needed internet to activate. Fixed with a static IP + `slmgr /ato` (valid until Feb 2027).
+- **GPO member typed by hand ("DL- Workstations-LocalAdmin", no SID):** would have silently applied nothing. Re-added it with Check Names so it resolved to ARMIAM\DL-Workstations-LocalAdmin with a SID. Lesson: Windows grants by SID, not name; always resolve.
+- **Group Policy failed on CLIENT01 (events 1055/1006, 7017; LDAP error 82 "Local Error"):** DNS, secure channel, Kerberos, DC discovery and TCP 389 all tested healthy. Root cause: the VM had been saved, not shut down, so the computer account's cached Kerberos ticket for LDAP/DC01 had expired. Fix: `klist -li 0x3e7 purge` then `gpupdate /force`. Prevention: shut lab VMs down cleanly; start the DC first and let it fully boot.
 
 ## Build (run order)
 
@@ -62,3 +64,23 @@ Initial passwords go to `C:\LabSecrets\` (Administrators only). Never commit tha
 ## Exam and interview mapping
 - SC-300: foundation for hybrid identity (Phase 2).
 - Story: "I designed the OU and group model so access is assigned by role, not by person, which makes onboarding and audits predictable."
+
+
+## Results
+- `gpresult`: "WKS Local Administrators" applied to CLIENT01 (OU=Workstations)
+- Local Administrators on CLIENT01 includes ARMIAM\DL-Workstations-LocalAdmin
+- michael.turner (standard user): elevation refused
+- adm-marcus.bell: elevation succeeded; token shows GRP-Workstation-Admins → DL-Workstations-LocalAdmin (AGDLP end to end)
+
+
+## OU design
+```mermaid
+graph TD
+  D[corp.armstrongiam.com] --> C[Corp]
+  C --> U[Users] --> U1[Executive] & U2[IT] & U3[HR] & U4[Finance] & U5[Sales]
+  C --> DU[Disabled Users]
+  C --> G[Groups] --> GR[Role: GRP-*] & GS[Resource: DL-*]
+  C --> CO[Computers] --> W[Workstations ← WKS Local Administrators GPO] & S[Servers]
+  C --> SA[Service Accounts]
+  C --> A[Admins] --> T0[Tier0] & T1[Tier1]
+```
