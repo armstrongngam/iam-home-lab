@@ -28,7 +28,7 @@ Sign-in and DC security logs ──► Microsoft Sentinel (detections, incident 
 
 | Phase | Folder | Topic | Status |
 |---|---|---|---|
-| 1 | [phase1-ad](phase1-ad/) | On-prem Active Directory, tiering, AGDLP | Not started |
+| 1 | [phase1-ad](phase1-ad/) | On-prem Active Directory, tiering, AGDLP | Complete |
 | 1B | [phase1b-ad-deep-dive](phase1b-ad-deep-dive/) | Replication, DNS, GPO, LDAP, Kerberos/NTLM, backup and restore | Not started |
 | 2 | [phase2-hybrid-entra](phase2-hybrid-entra/) | Entra Cloud Sync, hybrid join, dynamic groups | Not started |
 | 2B | [phase2b-aws-ad](phase2b-aws-ad/) | AWS Managed Microsoft AD, AD on EC2, forest trust | Not started |
