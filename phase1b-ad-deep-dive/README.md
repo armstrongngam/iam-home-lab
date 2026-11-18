@@ -26,8 +26,9 @@ Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Nt
 - [ ] Replication troubleshooting
 
 ## Interview story
-"A share worked by name but failed by IP, which told me it was falling back from Kerberos to NTLM. I audited NTLM across the domain, fixed what still used it, and only then restricted it."
+"Adding a second domain controller, replication failed with RPC 1722 even though DNS and the network looked fine. Working layer by layer, I found the new DC's clock had drifted, then that the PDC emulator itself was days off and pushing bad time. After fixing time, the new DC still resolved its partner to a public IP: its empty DNS server forwarded internal names to the internet, where the domain's wildcard record answered. Pointing it at the existing DC, clearing the DNS cache, and re-registering its records gave clean two-way replication. Lesson: check time, then DNS, then connectivity."
 
+(Planned for later in this phase: audit NTLM usage and restrict it.)
 
 
 ## What broke and how I fixed it
