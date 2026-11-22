@@ -1,6 +1,6 @@
 # Phase 1B: Active Directory engineering deep dive
 
-> Status: In progress — DC02 promoted (GUI wizard), two-way replication healthy. Next: FSMO, sites, DNS.
+> Status: In progress — Step 1 done (DC02, two-way replication, FSMO transfer, site subnet, DNS). Next: DNS deep dive, Group Policy.
 
 Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Ntlm | RecycleBin | Backup`
 
@@ -42,6 +42,13 @@ Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Nt
 | 4 | DC02 then jumped back to Nov 8 | **DC01 (PDC emulator) was 6 days behind** and pushed its time to DC02; w32time won't auto-correct >48 h on a DC | Set DC01's clock manually, resynced with time.windows.com |
 | 5 | RPC 1722 to DC01 and to itself; 8440 on ForestDnsZones | **DNS island + public wildcard:** DC02 used its own empty DNS, which forwarded `corp.armstrongiam.com` queries to the internet; the registrar's wildcard `*.armstrongiam.com` returned parking IPs | Pointed DC02 DNS at DC01 only, cleared DNS server cache; plan: remove the public wildcard |
 | 6 | DC01 couldn't pull from DC02 (8452) | DC02's records/partitions not yet known to DC01 | `ipconfig /registerdns` + Netlogon restart on DC02, `repadmin /kcc`, restarted DC01 |
+
+
+### 2026-11-19 — Step 1 completed
+- **FSMO:** transferred the RID Master DC01 → DC02 in ADUC (GUI), verified with `netdom query fsmo`, transferred back with `Move-ADDirectoryServerOperationMasterRole`.
+- **Sites:** subnet 10.10.10.0/24 → Default-First-Site-Name (`nltest /dsgetsite` confirms).
+- **DNS:** DC02 now hosts the AD-integrated zones (`corp` and `_msdcs`); each DC points to its partner first, then itself.
+- **Lesson:** VMs left running froze when the laptop slept → fixed both clocks (PDC first), purged Kerberos tickets. `repadmin /replsummary` showed 0 fails but a "largest delta" of 1d10h — replication was stale, not broken. Always read both columns.
 
 **Result:** `repadmin /replsummary` → 0 / 5 fails in both directions; `dcdiag /test:Advertising` passed; SYSVOL and NETLOGON shared on DC02; test user created on DC02 appeared on DC01.
 
