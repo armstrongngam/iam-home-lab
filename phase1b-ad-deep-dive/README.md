@@ -53,3 +53,16 @@ Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Nt
 **Result:** `repadmin /replsummary` → 0 / 5 fails in both directions; `dcdiag /test:Advertising` passed; SYSVOL and NETLOGON shared on DC02; test user created on DC02 appeared on DC01.
 
 **Prevention:** shut down DC VMs cleanly (never save or pause them); start DC01 first; a new DC points DNS at an existing DC until its zones replicate; don't leave public wildcard records on a domain used internally.
+
+### 2026-11-22 — DNS deep dive + ADMX central store
+- Reverse zone 10.10.10.x: AD-integrated, secure dynamic updates; PTRs for DC01/DC02.
+- Conditional forwarder aws.armstrongiam.com → 10.10.20.10 (placeholder for Phase 5B), AD-stored, replicated to DC02.
+- Scavenging: zone aging 7/7 + server ScavengingInterval was 00:00:00 (never ran) → set to 7 days.
+- Central store: copied PolicyDefinitions to SYSVOL (222 ADMX), verified on DC02.
+
+### 2026-11-24 — Microsoft security baseline (Windows 11 24H2)
+- Imported 8 MSFT baseline GPOs with Baseline-ADImport.ps1 (unlinked by default).
+- Linked only "MSFT Windows 11 24H2 - Computer" to empty pilot OU Corp\Computers\Baseline-Test.
+- Reviewed User Rights: network logon limited to Administrators/RDU; local accounts denied network + RDP logon (anti pass-the-hash); audit-log management limited to Administrators.
+- Lesson: "Domain Security" GPO only applies at the domain root; group-specific password rules need FGPP.
+- Next: move CLIENT01 into Baseline-Test, gpresult, confirm nothing breaks.
