@@ -66,3 +66,15 @@ Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Nt
 - Reviewed User Rights: network logon limited to Administrators/RDU; local accounts denied network + RDP logon (anti pass-the-hash); audit-log management limited to Administrators.
 - Lesson: "Domain Security" GPO only applies at the domain root; group-specific password rules need FGPP.
 - Next: move CLIENT01 into Baseline-Test, gpresult, confirm nothing breaks.
+
+### 2026-11-25 — Baseline pilot on CLIENT01
+- Moved CLIENT01 into Baseline-Test; gpresult confirms "MSFT Windows 11 24H2 - Computer" applied.
+- Verified enforcement with secedit: SeDenyNetworkLogonRight and SeDenyRemoteInteractiveLogonRight = *S-1-5-113 (Local account) → blocks pass-the-hash with local admin accounts.
+
+**What broke**
+| Symptom | Root cause | Fix |
+|---|---|---|
+| gpupdate: "could not resolve computer name" + "LDAP Bind failed" | VMs idle overnight → clock skew → Kerberos failures | PDC (DC01) synced to external NTP, Hyper-V time provider disabled on DC01, DC02 follows domain hierarchy, `klist purge` on client |
+| After the OU move, the WKS Local Administrators GPO no longer applied, but its group stayed in local Administrators | GPP Local Users and Groups (Update) tattoos the setting; "Remove this item when no longer applied" was off | Linked WKS Local Administrators to Baseline-Test so the pilot mirrors production |
+
+**Lessons:** a pilot OU must have the production GPOs **plus** the change. Moving an object between OUs is a change with blast radius. Verify controls with evidence (secedit), not just gpresult.
