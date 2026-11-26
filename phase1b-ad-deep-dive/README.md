@@ -78,3 +78,18 @@ Exercises: `..\phase1-ad\05-Invoke-ADDeepDive.ps1 -Exercise Ldap | Kerberos | Nt
 | After the OU move, the WKS Local Administrators GPO no longer applied, but its group stayed in local Administrators | GPP Local Users and Groups (Update) tattoos the setting; "Remove this item when no longer applied" was off | Linked WKS Local Administrators to Baseline-Test so the pilot mirrors production |
 
 **Lessons:** a pilot OU must have the production GPOs **plus** the change. Moving an object between OUs is a change with blast radius. Verify controls with evidence (secedit), not just gpresult.
+
+### 2026-11-26 — GPO security filtering + MS16-072
+- Created TEST - Logon Banner (computer-side logon banner), linked to Baseline-Test.
+- Security filtering: removed Authenticated Users, added GRP-Baseline-Pilot (contains CLIENT01$).
+- Purged computer Kerberos tickets (`klist -li 0x3e7 purge`) so CLIENT01's token picked up the new group.
+
+| Test | Result |
+|---|---|
+| CLIENT01 in group, Authenticated Users removed | Applied (computer GPO reads as itself) |
+| CLIENT01 removed, no Authenticated Users Read | Not Applied (Unknown Reason): computer can't read the GPO |
+| Authenticated Users = Read, CLIENT01 not in group (old ticket) | Denied (Security) |
+| Ticket purged, CLIENT01 back in group | Applied |
+
+**What changed with the baseline:** UAC now prompts admins for credentials on the secure desktop (ConsentPromptBehaviorAdmin = 2).
+**Lessons:** keep Authenticated Users with Read when filtering (MS16-072). Group changes need a new Kerberos ticket (reboot or klist purge). GPO permission changes must replicate to the DC the client uses (CLIENT01 used DC02).
